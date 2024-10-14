@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.utils import timezone
 
@@ -11,9 +12,6 @@ class Usuario(models.Model):
 
     Similar a lo anterior, para definir la informacion almacenada del registro es necesario utilizar
     los metodos set_[atributo] y pasarle los parametros correctos.
-
-    Para actualizar los datos, sera necesario utilizar los metodos update_[atributo] y pasarle los datos
-    correspondientes.
 
     :ivar nombre: Nombre de usuario, longitud maxima de 32 caracteres
     :vartype nombre: str
@@ -45,7 +43,26 @@ class Usuario(models.Model):
         if isinstance(nombre, str):
             if len(nombre) < 32:
                 if not ' ' in nombre:
-                    self._nombre = nombre
+                    return True
+
+        return False
+
+    def _validar_contrasenna(self, contrasenna):
+        """
+        Funcion interna que evalua si la contraseña es valida.
+
+        Debera: tener al menos 8 caracteres, ser un str y no tener espacios en blanco
+
+        :type contrasenna: str
+        :param contrasenna: Parametro que sera evaluado
+
+        :rtype: bool
+        :return: Devuelve True si la contraseña es valida o False si no lo es.
+        """
+
+        if isinstance(contrasenna, str):
+            if len(contrasenna) >= 8:
+                if ' ' not in contrasenna:
                     return True
 
         return False
@@ -77,19 +94,65 @@ class Usuario(models.Model):
 
         return self._nombre if self._nombre is not '' else None
 
-    def update_nombre(self, nombre):
+    def set_contrasenna(self, contrasenna):
         """
-        Actualiza el nombre de usuario previamente definido.
+        Recibe una contraseña la cual se utilizara para generar un hash.
 
-        :type nombre: str
-        :param nombre: Valor al cual se actualizara el nombre de usuario.
+        :type contrasenna: str
+        :param contrasenna: Valor que sera utilizado como contraseña.
 
         :rtype: bool
-        :return: Devuelve True si la operacion se completo con exito o False si fallo.
+        :return: Devuelve True si la operacion se creo con exito o False si fallo
         """
 
-        if self._nombre and self._validar_nombre(nombre):
-            self._nombre = nombre
+        if not self._contrasenna and self._validar_contrasenna(contrasenna):
+            self._contrasenna = make_password(contrasenna)
             return True
 
         return False
+
+    def iniciar_sesion(self, contrasenna):
+        """
+        Metodo utilizada para validar la contraseña ingresada por el usuario con la almacenada en el sistema.
+
+        :type contrasenna: str
+        :param contrasenna: Contraseña ingresada por el usuario
+
+        :rtype: bool
+        :return: True si se valido correctamente la contraseña o False si fallo la validacion
+        """
+
+        if self._contrasenna:
+            if check_password(contrasenna, self._contrasenna):
+                self._actualizar_fecha_ultimo_login()
+                return True
+
+        return False
+
+    def _actualizar_fecha_ultimo_login(self):
+        """
+        Metodo interno para actualizar automaticamente la ultima fecha de inicio de sesion.
+
+        :rtype: None
+        """
+        self._ultimo_login = timezone.now().date()
+
+    def get_ultimo_login(self):
+        """
+        Metodo que devuelve la fecha del ultimo inicio de sesion. Atributo de solo lectura.
+
+        :rtype: date
+        :return: Fecha del ultimo inicio de sesion exitoso.
+        """
+        return self._ultimo_login
+
+    def get_fecha_creacion(self):
+        """
+        Devuelve la fecha en la que se registro el usuario en el sistema. Atributo de solo lectura.
+
+        :rtype: date
+        :return: Devuelve la fecha de registro.
+        """
+
+        return self._fecha_creacion
+
