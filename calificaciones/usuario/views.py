@@ -21,5 +21,6 @@ def registrarse(request):
             return HttpResponse('Error')
 
     template = loader.get_template('sign_in.html')
-    return render(request, 'sign_in.html', {'form': SignInForm()})
-    #return HttpResponse(template.render())
+    return render(request, 'sign_in.html', {
+        'titulo': 'Registro de nuevo usuario',
+        'form': SignInForm()})
