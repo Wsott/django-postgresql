@@ -27,50 +27,10 @@ class Usuario(models.Model):
     _fecha_creacion = models.DateField(default=timezone.now().date(), editable=False)
     _ultimo_login = models.DateField(default=None, null=True)
 
-    def _validar_nombre(self, nombre):
-        """
-        Funcion de uso interno para validar que el nombre de usuario se adecua a lo necesario.
-
-        Debera: ser str, no tener mas de 32 caracteres, no tener espacios en blanco.
-
-        :type nombre: str
-        :param nombre: Valor que sera evaluado.
-
-        :rtype: bool
-        :return: Devuelve True si es valido o False si es invalido
-        """
-
-        if isinstance(nombre, str):
-            if len(nombre) < 32:
-                if not ' ' in nombre:
-                    return True
-
-        return False
-
-    def _validar_contrasenna(self, contrasenna):
-        """
-        Funcion interna que evalua si la contraseña es valida.
-
-        Debera: tener al menos 8 caracteres, ser un str y no tener espacios en blanco
-
-        :type contrasenna: str
-        :param contrasenna: Parametro que sera evaluado
-
-        :rtype: bool
-        :return: Devuelve True si la contraseña es valida o False si no lo es.
-        """
-
-        if isinstance(contrasenna, str):
-            if len(contrasenna) >= 8:
-                if ' ' not in contrasenna:
-                    return True
-
-        return False
-
     def set_nombre(self, nombre):
         """
         Recibe una cadena de texto que sera el nombre de usuario. Solamente se puede realizar el set
-        la primera vez, posterioremente es necesario utilizar la funcion update_nombre
+        la primera vez
 
         :type nombre: str
         :param nombre: Nombre del usuario.
@@ -79,11 +39,7 @@ class Usuario(models.Model):
         :return: Devuelve True si la operacion se completo con exito. False si la operacion fallo.
         """
 
-        if not self._nombre and self._validar_nombre(nombre):
-            self._nombre = nombre
-            return True
-
-        return False
+        self._nombre = nombre
 
     def get_nombre(self):
         """
@@ -105,11 +61,7 @@ class Usuario(models.Model):
         :return: Devuelve True si la operacion se creo con exito o False si fallo
         """
 
-        if not self._contrasenna and self._validar_contrasenna(contrasenna):
-            self._contrasenna = make_password(contrasenna)
-            return True
-
-        return False
+        self._contrasenna = make_password(contrasenna)
 
     def iniciar_sesion(self, contrasenna):
         """
