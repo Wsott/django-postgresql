@@ -155,4 +155,3 @@ class Usuario(models.Model):
         """
 
         return self._fecha_creacion
-
