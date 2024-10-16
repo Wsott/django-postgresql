@@ -15,11 +15,16 @@ def registrarse(request):
         datos = SignInForm(request.POST)
 
         if datos.is_valid():
-            nuevo_usuario = Usuario()
-            nuevo_usuario.set_nombre(datos.cleaned_data['nombre'])
-            nuevo_usuario.set_contrasenna(datos.cleaned_data['contrasenna'])
-            nuevo_usuario.save()
-            return HttpResponse('Exito')
+            try:
+                nuevo_usuario = Usuario.objects.get(_nombre=datos.cleaned_data['nombre'])
+
+                mensaje_error = f"Este nombre de usuario ({nuevo_usuario.get_nombre()}) ya esta en uso"
+            except ObjectDoesNotExist:
+                nuevo_usuario = Usuario()
+                nuevo_usuario.set_nombre(datos.cleaned_data['nombre'])
+                nuevo_usuario.set_contrasenna(datos.cleaned_data['contrasenna'])
+                nuevo_usuario.save()
+                return HttpResponse('Exito')
         else:
             mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
 

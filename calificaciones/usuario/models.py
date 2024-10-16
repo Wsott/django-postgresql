@@ -22,7 +22,7 @@ class Usuario(models.Model):
     :ivar ultimo_login: Fecha del ultimo inicio de sesion en el sistema. Actualizacion automatica. Solo lectura.
     :vartype ultimo_login: date
     """
-    _nombre = models.CharField(max_length=32)
+    _nombre = models.CharField(max_length=32, unique=True)
     _contrasenna = models.CharField(max_length=256)
     _fecha_creacion = models.DateField(default=timezone.now().date(), editable=False)
     _ultimo_login = models.DateField(default=None, null=True)
