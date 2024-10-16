@@ -6,6 +6,13 @@
 <form action="/sign_in/" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-display-middle" style="width:25%; display: flex; flex-direction: column; gap: 2vh">
     {% csrf_token %}
     {{ form }}
+    <div>
+        <input id="tos" type="checkbox" required>
+        <label for="tos">Acepto los <a id="tos-event" target="_blank" href="https://www.lipsum.com/">Terminos y  Condiciones</a></label>
+    </div>
+    {% if error %}
+    <span class="w3-text-red"><b>{{ error }}</b></span>
+    {% endif %}
     <input type="submit" value="Registrarse" class="w3-button w3-indigo w3-round ">
 </form>
 {% endblock %}

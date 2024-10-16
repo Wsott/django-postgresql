@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def registrarse(request):
+    mensaje_error = None
+
     if request.method == 'POST':
         datos = SignInForm(request.POST)
 
@@ -19,11 +21,13 @@ def registrarse(request):
             nuevo_usuario.save()
             return HttpResponse('Exito')
         else:
-            return HttpResponse('Error')
+            mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
 
     return render(request, 'sign_in.html', {
         'titulo': 'Registro de nuevo usuario',
-        'form': SignInForm()})
+        'form': SignInForm(),
+        'error': mensaje_error
+    })
 
 
 def login(request):
@@ -41,8 +45,6 @@ def login(request):
                     mensaje_error = 'Error al iniciar sesion, verifique que su usario y contraseña sean correctos'
             except ObjectDoesNotExist:
                 mensaje_error = 'Error al iniciar sesion, verifique que su usario y contraseña sean correctos'
-
-
         else:
             mensaje_error = 'Verifique que el usuario y la contraseña no tengan espacios'
 
