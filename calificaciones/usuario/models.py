@@ -88,6 +88,7 @@ class Usuario(models.Model):
         :rtype: None
         """
         self._ultimo_login = timezone.now().date()
+        self.save()
 
     def get_ultimo_login(self):
         """
