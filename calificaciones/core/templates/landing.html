@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Landing {% endblock %}
+
+{% block contenido %}
+<div class="w3-cell-row">
+    <div class="w3-container w3-red w3-cell w3-cell-middle">
+        <div class="w3-container w3-right-align ">
+            <span class="w3-text-white w3-xxlarge">Deja tu opinion</span>
+            <p>Porque ser crítico no es solo para películas ni restaurantes. ¿Ese producto te hizo
+                ver el mundo de otra manera o simplemente acumula polvo en algun rincón de tu casa?
+                ¡Es el momento que todos lo sepan!</p>
+        </div>
+    </div>
+
+    <div class="w3-container w3-green w3-cell">
+        <div class="bgimg w3-section"></div>
+    </div>
+</div>
+
+<div class="w3-container w3-section">
+    <h2 class="w3-center">Reseñas mas recientes</h2>
+    <div class="w3-cell-row w3-center" style="border-spacing: 1.5vw">
+        <div class="w3-cell w3-padding" style="background-color: red; width: 25vw">
+            <img src="https://picsum.photos/256/256" class="w3-circle" alt="Alps">
+            <p><b>El salvador de las mañanas</b></p>
+            <p>⭐⭐⭐⭐</p>
+            <p>¡Este exprimidor de cítricos es una genialidad! Lo compré pensando que sería otro aparato que se quedaría en
+                la estantería, pero me sorprendió. Exprime limones como si fueran sus enemigos mortales y me ha salvado de
+                más de un desayuno aburrido. La única razón por la que no le doy 5 estrellas es porque no viene con un
+                botón para que tambien me haga el desayuno.</p>
+        </div>
+        <div class="w3-cell w3-padding" style="background-color: green; width: 25vw;">
+            <img src="https://picsum.photos/256/256" class="w3-circle" alt="Alps">
+            <p><b>¡Me cambió la vida!</b></p>
+            <p>⭐⭐⭐⭐⭐</p>
+            <p>¡5 estrellas no son suficientes! Desde que lo compré, mi gato me respeta más, mi planta dejó de morir
+                lentamente, y mis vecinos finalmente aprendieron a saludarme. ¿Coincidencia? No lo creo. Si estás dudando
+                en comprarlo, ¡hazlo ya! Ni siquiera sé para qué sirve, pero mi vida es claramente mejor.</p>
+        </div>
+        <div class="w3-cell w3-padding" style="background-color: blue; width: 25vw">
+            <img src="https://picsum.photos/256/256" class="w3-circle" alt="Alps">
+            <p><b>Una obra de arte abstracto</b></p>
+            <p>⭐⭐</p>
+            <p>Le tenía fe a este producto, pero creo que mis expectativas eran de otro planeta. Hice todo lo que decía en
+                la caja, pero terminó siendo muy complicado de armar. Ahora lo uso de pisa papeles. Dos estrellas porque
+                al menos queda bonito en el escritorio... si lo miras de lejos y con los ojos entrecerrados.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bgimg {
+        background-position: center;
+        background-size: cover;
+        background-image: url("https://picsum.photos/1366/768/?blur");
+        min-height: 50vh;
+        min-width: 40vw;
+    }
+</style>
+{% endblock %}
+
