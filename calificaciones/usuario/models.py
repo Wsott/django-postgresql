@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -26,6 +27,8 @@ class Usuario(models.Model):
     _contrasenna = models.CharField(max_length=256)
     _fecha_creacion = models.DateField(default=timezone.now().date(), editable=False)
     _ultimo_login = models.DateField(default=None, null=True)
+    _email = models.EmailField(default=None, null=False, unique=True)
+    _slug = models.SlugField(default='', null=False, unique=True)
 
     def set_nombre(self, nombre):
         """
@@ -108,3 +111,9 @@ class Usuario(models.Model):
         """
 
         return self._fecha_creacion
+
+    def save(self, *args, **kwargs):
+        if not self._slug:
+            self._slug = slugify(f'{self._nombre}-{self.pk}')
+
+        super(Usuario, self).save(*args, **kwargs)
