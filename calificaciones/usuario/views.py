@@ -72,3 +72,10 @@ def perfil(request):
     }
 
     return render(request, 'perfil.html', contexto)
+
+
+def logout(request):
+    if 'usuario_actual' in request.session:
+        del request.session['usuario_actual']
+
+    return redirect('/')
