@@ -66,9 +66,20 @@ def login(request):
     })
 
 
-def perfil(request):
+def perfil(request, slug=None):
+    usuario = None
+    titulo = None
+
+    if slug:
+        usuario = Usuario.objects.get(_slug=slug)
+        titulo = f'Perfil de {usuario.get_nombre()}'
+    else:
+        usuario = Usuario.objects.get(pk=request.session['usuario_actual']['id'])
+        titulo = 'Mi perfil'
+
     contexto = {
-        'usuario': Usuario.objects.get(pk=request.session['usuario_actual']['id'])
+        'usuario': usuario,
+        'titulo': titulo
     }
 
     return render(request, 'perfil.html', contexto)

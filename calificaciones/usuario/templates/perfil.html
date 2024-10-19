@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 
-{% block titulo %} Mi perfil - {{ titulo }} {% endblock %}
+{% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% if not request.session.usuario_actual %}
+<div class="w3-red">
+  adasdas
+</div>
+{% endif %}
+<div class="w3-blue">
+  {{ request.session.usuario_actual }}
+</div>
+
 
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
@@ -22,9 +32,22 @@
           </div>
         </div>
         <div class="w3-container">
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.get_email}}</p>
+          {% if request.session.usuario_actual and request.session.usuario_actual.id == usuario.id %}
+          <p>
+            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
+            {{usuario.get_email}}
+          </p>
+          {% endif %}
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.get_fecha_creacion}}</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Ultimo login: {{usuario.get_ultimo_login}}</p>
+          <p>
+            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
+            Ultimo login:
+            {% if usuario.get_ultimo_login %}
+              {{usuario.get_ultimo_login}}
+            {% else %}
+              Nunca
+            {% endif %}
+          </p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Cantidad de reseñas: XXX</p>
 
         </div>
