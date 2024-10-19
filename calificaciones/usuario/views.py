@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import loader
 
 from core.forms import SignInForm, LogInForm
@@ -23,7 +23,9 @@ def registrarse(request):
                 nuevo_usuario = Usuario()
                 nuevo_usuario.set_nombre(datos.cleaned_data['nombre'])
                 nuevo_usuario.set_contrasenna(datos.cleaned_data['contrasenna'])
+                nuevo_usuario.set_email(datos.cleaned_data['email'])
                 nuevo_usuario.save()
+                nuevo_usuario.generar_slug()
                 return HttpResponse('Exito')
         else:
             mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
@@ -45,7 +47,11 @@ def login(request):
             try:
                 usuario = Usuario.objects.get(_nombre=datos.cleaned_data['nombre'])
                 if usuario and usuario.iniciar_sesion(datos.cleaned_data['contrasenna']):
-                    return HttpResponse('Iniciada sesion')
+                    request.session['usuario_actual'] = {
+                        'nombre': usuario.get_nombre(),
+                        'id': usuario.id
+                    }
+                    return redirect('perfil')
                 else:
                     mensaje_error = 'Error al iniciar sesion, verifique que su usario y contraseña sean correctos'
             except ObjectDoesNotExist:
@@ -58,3 +64,7 @@ def login(request):
         'form': LogInForm(),
         'error': mensaje_error
     })
+
+
+def perfil(request):
+    return render(request, 'perfil.html')

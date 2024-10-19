@@ -15,6 +15,11 @@ class SignInForm(forms.Form):
                                               'class': 'w3-input'
                                           }))
 
+    email = forms.EmailField(label='Ingrese su email',
+                             widget=forms.EmailInput(attrs={
+                                 'class': 'w3-input'
+                             }))
+
     def clean(self):
         datos = super().clean()
 

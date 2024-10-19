@@ -66,6 +66,27 @@ class Usuario(models.Model):
 
         self._contrasenna = make_password(contrasenna)
 
+    def set_email(self, email):
+        """
+        Funcion para establecer el email del usuario.
+
+        :type email: str
+        :param email: Email que estara asociado a la cuenta
+
+        :rtype: None
+        """
+
+        self._email = email
+
+    def get_email(self):
+        """
+        Funcion que retorna el email asociado a la cuenta
+
+        :rtype: str
+        :return: Devuelve el email registrado
+        """
+        return self._email
+
     def iniciar_sesion(self, contrasenna):
         """
         Metodo utilizada para validar la contraseña ingresada por el usuario con la almacenada en el sistema.
@@ -112,8 +133,7 @@ class Usuario(models.Model):
 
         return self._fecha_creacion
 
-    def save(self, *args, **kwargs):
+    def generar_slug(self):
         if not self._slug:
             self._slug = slugify(f'{self._nombre}-{self.pk}')
-
-        super(Usuario, self).save(*args, **kwargs)
+            self.save()
