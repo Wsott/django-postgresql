@@ -67,4 +67,8 @@ def login(request):
 
 
 def perfil(request):
-    return render(request, 'perfil.html')
+    contexto = {
+        'usuario': Usuario.objects.get(pk=request.session['usuario_actual']['id'])
+    }
+
+    return render(request, 'perfil.html', contexto)
