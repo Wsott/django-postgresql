@@ -133,6 +133,10 @@ class Usuario(models.Model):
 
         return self._fecha_creacion
 
+    @property
+    def slug(self):
+        return self._slug
+
     def generar_slug(self):
         if not self._slug:
             self._slug = slugify(f'{self._nombre}-{self.pk}')

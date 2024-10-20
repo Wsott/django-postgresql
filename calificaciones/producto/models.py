@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 from usuario.models import Usuario
 
@@ -19,6 +20,7 @@ class Producto(models.Model):
     _fabricante = models.TextField(null=False, max_length=32)
     _precio = models.FloatField(null=True)
     _categoria = models.CharField(null=False, max_length=2, choices=Categoria.choices, default=Categoria.OTROS)
+    _slug = models.TextField(null=False, unique=True, max_length=72)
 
     @property
     def nombre(self):
@@ -54,6 +56,13 @@ class Producto(models.Model):
             self._categoria = value
         else:
             raise ValueError(f'{value} no es una categoria valida')
+
+    @property
+    def slug(self):
+        return self._slug
+
+    def generar_slug(self):
+        self._slug = slugify(f'{self.nombre} {self.fabricante} {self.pk}')
 
     def __str__(self):
         return f'ID:{self.pk}. {self._nombre}'
@@ -104,6 +113,9 @@ class Resenna(models.Model):
     @property
     def creacion(self):
         return self._creacion
+
+    def obtener_rango(self):
+        return range(0, self.puntuacion)
 
     def __str__(self):
         return f'ID:{self.pk}. {self.producto.nombre}; {self.usuario._nombre}; {self.puntuacion} estrellas'
