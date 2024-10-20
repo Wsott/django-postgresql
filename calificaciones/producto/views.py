@@ -9,7 +9,7 @@ def info(request, slug):
     if slug:
         try:
             producto = Producto.objects.get(_slug=slug)
-            resennas = producto.resennas.all()
+            resennas = producto.resennas.order_by('-_creacion')[:5]
 
             contexto = {
                 'producto': producto,

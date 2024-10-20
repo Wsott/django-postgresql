@@ -29,33 +29,31 @@
   <div class="w3-row-padding">
 
     <!-- Left Column -->
-    <div class="w3-col" style="max-width:20vw">
+    <div class="w3-col w3-quarter">
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
           <img src="https://picsum.photos/128/128/?grayscale" style="width:100%" alt="Avatar">
           <div class="w3-container w3-text-black">
-            <h2>{{usuario.get_nombre}}</h2>
+            <h4>{{producto.nombre}}</h4>
           </div>
         </div>
         <div class="w3-container">
-          {% if request.session.usuario_actual and request.session.usuario_actual.id == usuario.id %}
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            {{usuario.get_email}}
+            Fabricante: {{ producto.fabricante }}
           </p>
-          {% endif %}
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.get_fecha_creacion}}</p>
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            Ultimo login:
-            {% if usuario.get_ultimo_login %}
-              {{usuario.get_ultimo_login}}
-            {% else %}
-              Nunca
-            {% endif %}
+            Precio: ${{ producto.precio }}</p>
+          <p>
+            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
+            {{ producto.categoria }}
           </p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Cantidad de reseñas: XXX</p>
+          <p>
+            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
+            Cantidad de reseñas: {{ resennas.count }}
+          </p>
 
         </div>
       </div><br>
