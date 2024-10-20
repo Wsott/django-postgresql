@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils import timezone
+
+from usuario.models import Usuario
 
 
 # Create your models here.
@@ -51,3 +54,56 @@ class Producto(models.Model):
             self._categoria = value
         else:
             raise ValueError(f'{value} no es una categoria valida')
+
+    def __str__(self):
+        return f'ID:{self.pk}. {self._nombre}'
+
+
+class Resenna(models.Model):
+    _producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='resennas')
+    _usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    _comentario = models.TextField(max_length=256, null=False)
+    _puntuacion = models.IntegerField(default=3)
+    _creacion = models.DateField(default=timezone.now().date())
+
+    @property
+    def producto(self):
+        return self._producto
+
+    @producto.setter
+    def producto(self, value):
+        self._producto = value
+
+    @property
+    def usuario(self):
+        return self._usuario
+
+    @usuario.setter
+    def usuario(self, value):
+        self._usuario = value
+
+    @property
+    def comentario(self):
+        return self._comentario
+
+    @comentario.setter
+    def comentario(self, value):
+        self._comentario = value
+
+    @property
+    def puntuacion(self):
+        return self._puntuacion
+
+    @puntuacion.setter
+    def puntuacion(self, value):
+        if 1 <= value <= 5:
+            self._puntuacion = value
+        else:
+            raise ValueError(f'{value} no es un valor valido')
+
+    @property
+    def creacion(self):
+        return self._creacion
+
+    def __str__(self):
+        return f'ID:{self.pk}. {self.producto.nombre}; {self.usuario._nombre}; {self.puntuacion} estrellas'
