@@ -3,6 +3,63 @@
 {% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const productoId = "{{producto.id}}";  // Obtener el id del producto del contexto
+    const resenasContainer = document.getElementById('lista_resennas');
+    const selectOrden = document.getElementById('orden-filtro');
+
+    selectOrden.addEventListener('change', function() {
+      const orden = this.value;
+      aplicarFiltro(orden);
+    });
+
+    function aplicarFiltro(orden) {
+      const url = `http://127.0.0.1:8000/producto/api/${productoId}/5/${orden}`;
+
+      fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la respuesta de la API');
+        }
+        return response.json();
+      })
+      .then(data => {
+        resenasContainer.innerHTML = '';
+        data.forEach(actual => {
+          const elemento = document.createElement('li');
+          elemento.innerHTML =
+          `
+          <div class="w3-bar">
+              <div class="w3-bar-item">
+                <span class="w3-large">Podría ser peor, pero no mucho</span><br>
+                <span id='${actual._puntuacion}' class='x'>
+                </span>
+              </div>
+              <p class="w3-bar-item">
+                ${actual._comentario}
+              </p>
+              <span class="w3-bar-item w3-right">
+                Reseña hecha por: <a href="/usuario/perfil/${actual._usuario___slug}">${actual._usuario___nombre}</a>
+              </span>
+            </div>
+          `;
+          resenasContainer.appendChild(elemento);
+        })
+      })
+      .then(() => {
+        const spans = document.querySelectorAll('.x');
+
+        spans.forEach(actual => {
+          const cantidad = parseInt(actual.id, 10);
+          actual.innerHTML = '⭐'.repeat(cantidad);
+        })
+      })
+    }
+
+  });
+</script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {% if not request.session.usuario_actual %}
@@ -63,13 +120,22 @@
 
     <!-- Right Column -->
     <div class="w3-rest">
+      <div class="w3-container w3-margin-bottom">
+        <span class="w3-text">Filtrar por:</span>
+        <select id="orden-filtro" class="w3-select">
+          <option value="-_creacion" selected>Mas nuevo</option>
+          <option value="_creacion">Mas viejo</option>
+          <option value="-_puntuacion">Puntuacion mas alta</option>
+          <option value="_puntuacion">Puntuacion mas baja</option>
+        </select>
+      </div>
 
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16">
           <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Ultimas reseñas
         </h2>
 
-        <ul class="w3-ul">
+        <ul id="lista_resennas" class="w3-ul">
           {% for actual in resennas %}
           <li>
             <div class="w3-bar">
@@ -113,4 +179,7 @@
 
   <!-- End Page Container -->
 </div>
+
+
+
 {% endblock %}
