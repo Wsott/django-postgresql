@@ -137,3 +137,6 @@ class Usuario(models.Model):
         if not self._slug:
             self._slug = slugify(f'{self._nombre}-{self.pk}')
             self.save()
+
+    def __str__(self):
+        return f'ID:{self.pk}. {self._nombre}'
