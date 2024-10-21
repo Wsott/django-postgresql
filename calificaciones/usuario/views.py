@@ -21,9 +21,9 @@ def registrarse(request):
                 mensaje_error = f"Este nombre de usuario ({nuevo_usuario.get_nombre()}) ya esta en uso"
             except ObjectDoesNotExist:
                 nuevo_usuario = Usuario()
-                nuevo_usuario.set_nombre(datos.cleaned_data['nombre'])
+                nuevo_usuario.nombre = datos.cleaned_data['nombre']
                 nuevo_usuario.set_contrasenna(datos.cleaned_data['contrasenna'])
-                nuevo_usuario.set_email(datos.cleaned_data['email'])
+                nuevo_usuario.email = datos.cleaned_data['email']
                 nuevo_usuario.save()
                 nuevo_usuario.generar_slug()
                 return HttpResponse('Exito')
@@ -48,7 +48,7 @@ def login(request):
                 usuario = Usuario.objects.get(_nombre=datos.cleaned_data['nombre'])
                 if usuario and usuario.iniciar_sesion(datos.cleaned_data['contrasenna']):
                     request.session['usuario_actual'] = {
-                        'nombre': usuario.get_nombre(),
+                        'nombre': usuario.nombre,
                         'id': usuario.id
                     }
                     return redirect('perfil')
@@ -72,7 +72,7 @@ def perfil(request, slug=None):
 
     if slug:
         usuario = Usuario.objects.get(_slug=slug)
-        titulo = f'Perfil de {usuario.get_nombre()}'
+        titulo = f'Perfil de {usuario.nombre}'
     else:
         usuario = Usuario.objects.get(pk=request.session['usuario_actual']['id'])
         titulo = 'Mi perfil'

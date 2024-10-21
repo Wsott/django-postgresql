@@ -30,28 +30,29 @@ class Usuario(models.Model):
     _email = models.EmailField(default=None, null=False, unique=True)
     _slug = models.SlugField(default='', null=False, unique=True)
 
-    def set_nombre(self, nombre):
-        """
-        Recibe una cadena de texto que sera el nombre de usuario. Solamente se puede realizar el set
-        la primera vez
+    @property
+    def nombre(self):
+        return self._nombre
 
-        :type nombre: str
-        :param nombre: Nombre del usuario.
+    @nombre.setter
+    def nombre(self, value):
+        self._nombre = value
 
-        :rtype: bool
-        :return: Devuelve True si la operacion se completo con exito. False si la operacion fallo.
-        """
+    @property
+    def email(self):
+        return self._email
 
-        self._nombre = nombre
+    @email.setter
+    def email(self, value):
+        self._email = value
 
-    def get_nombre(self):
-        """
-        Devuelve el nombre de usuario del registro representado por la instancia.
+    @property
+    def ultimo_login(self):
+        return self._ultimo_login
 
-        :rtype: str | None
-        """
-
-        return self._nombre if self._nombre is not '' else None
+    @property
+    def fecha_creacion(self):
+        return self._fecha_creacion
 
     def set_contrasenna(self, contrasenna):
         """
@@ -65,27 +66,6 @@ class Usuario(models.Model):
         """
 
         self._contrasenna = make_password(contrasenna)
-
-    def set_email(self, email):
-        """
-        Funcion para establecer el email del usuario.
-
-        :type email: str
-        :param email: Email que estara asociado a la cuenta
-
-        :rtype: None
-        """
-
-        self._email = email
-
-    def get_email(self):
-        """
-        Funcion que retorna el email asociado a la cuenta
-
-        :rtype: str
-        :return: Devuelve el email registrado
-        """
-        return self._email
 
     def iniciar_sesion(self, contrasenna):
         """
@@ -113,25 +93,6 @@ class Usuario(models.Model):
         """
         self._ultimo_login = timezone.now().date()
         self.save()
-
-    def get_ultimo_login(self):
-        """
-        Metodo que devuelve la fecha del ultimo inicio de sesion. Atributo de solo lectura.
-
-        :rtype: date
-        :return: Fecha del ultimo inicio de sesion exitoso.
-        """
-        return self._ultimo_login
-
-    def get_fecha_creacion(self):
-        """
-        Devuelve la fecha en la que se registro el usuario en el sistema. Atributo de solo lectura.
-
-        :rtype: date
-        :return: Devuelve la fecha de registro.
-        """
-
-        return self._fecha_creacion
 
     @property
     def slug(self):

@@ -28,22 +28,22 @@
         <div class="w3-display-container">
           <img src="https://picsum.photos/128/128/?grayscale" style="width:100%" alt="Avatar">
           <div class="w3-container w3-text-black">
-            <h2>{{usuario.get_nombre}}</h2>
+            <h2>{{usuario.nombre}}</h2>
           </div>
         </div>
         <div class="w3-container">
           {% if request.session.usuario_actual and request.session.usuario_actual.id == usuario.id %}
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            {{usuario.get_email}}
+            {{usuario.email}}
           </p>
           {% endif %}
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.get_fecha_creacion}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.fecha_creacion}}</p>
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
             Ultimo login:
-            {% if usuario.get_ultimo_login %}
-              {{usuario.get_ultimo_login}}
+            {% if usuario.ultimo_login %}
+              {{usuario.ultimo_login}}
             {% else %}
               Nunca
             {% endif %}
