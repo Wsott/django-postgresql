@@ -59,58 +59,51 @@
     <!-- Right Column -->
     <div class="w3-rest">
 
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
+      <div class="w3-container w3-card w3-white w3-margin-bottom" style="min-height: 55vh">
         <h2 class="w3-text-grey w3-padding-16">
           <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Ultimas reseñas
         </h2>
 
+
+        {% if resennas %}
         <ul class="w3-ul">
+
+
+          {% for actual in resennas %}
           <li>
             <div class="w3-bar">
-              <img src="https://picsum.photos/80/80" class="w3-bar-item w3-circle" style="width:85px">
-            <div class="w3-bar-item">
-              <span class="w3-large">Podría ser peor, pero no mucho</span><br>
-              <span>⭐⭐</span>
+              <div class="w3-bar-item">
+                <span class="w3-large">{{ actual.titulo }}</span><br>
+                <span>
+                  {% for x in actual.obtener_rango %}
+                  ⭐
+                  {% endfor %}
+                </span>
+              </div>
+              <p class="w3-bar-item">
+                {{ actual.comentario }}
+              </p>
+              <span class="w3-bar-item w3-right">
+                Reseña hecha para: <a href="/producto/info/{{ actual.producto.slug }}">{{ actual.producto.nombre }}</a>
+              </span>
             </div>
-            </div>
-            <p>
-              Compré este producto con la esperanza de mejorar mi vida pero ahora solo sirve como un tema de conversación
-              para las visitas y hace ruidos raros cuando lo enciendo. Lo único que ha mejorado es mi habilidad para
-              fingir que me gusta. Por lo menos no explotó... todavia.
-            </p>
           </li>
 
-          <li>
-            <div class="w3-bar">
-              <img src="https://picsum.photos/80/80" class="w3-bar-item w3-circle" style="width:85px">
-            <div class="w3-bar-item">
-              <span class="w3-large">Podría ser peor, pero no mucho</span><br>
-              <span>⭐⭐</span>
-            </div>
-            </div>
-            <p>
-              Compré este producto con la esperanza de mejorar mi vida pero ahora solo sirve como un tema de conversación
-              para las visitas y hace ruidos raros cuando lo enciendo. Lo único que ha mejorado es mi habilidad para
-              fingir que me gusta. Por lo menos no explotó... todavia.
-            </p>
-          </li>
+          {% endfor %}
 
-          <li>
-            <div class="w3-bar">
-              <img src="https://picsum.photos/80/80" class="w3-bar-item w3-circle" style="width:85px">
-            <div class="w3-bar-item">
-              <span class="w3-large">Podría ser peor, pero no mucho</span><br>
-              <span>⭐⭐</span>
-            </div>
-            </div>
-            <p>
-              Compré este producto con la esperanza de mejorar mi vida pero ahora solo sirve como un tema de conversación
-              para las visitas y hace ruidos raros cuando lo enciendo. Lo único que ha mejorado es mi habilidad para
-              fingir que me gusta. Por lo menos no explotó... todavia.
-            </p>
-          </li>
+          </ul>
+          {% else %}
 
-        </ul>
+          <div class="w3-container w3-display-container w3-section" style="height: 35vh">
+
+            <span class="w3-display-middle w3-xxlarge">No hay nada... por ahora</span>
+          </div>
+
+          {% endif %}
+
+
+
+
 
 
 

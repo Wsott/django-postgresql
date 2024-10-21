@@ -81,12 +81,14 @@ def perfil(request, slug=None):
         usuario = Usuario.objects.get(pk=request.session['usuario_actual']['id'])
         titulo = 'Mi perfil'
 
-    cantidad_resennas = Resenna.objects.filter(_usuario=usuario).aggregate(cantidad=Count('id'))['cantidad']
+    resennas = Resenna.objects.filter(_usuario=usuario).order_by('-_creacion')
+    cantidad_resennas = resennas.aggregate(cantidad=Count('id'))['cantidad']
 
     contexto = {
         'usuario': usuario,
         'titulo': titulo,
-        'cantidad_resennas': cantidad_resennas
+        'cantidad_resennas': cantidad_resennas,
+        'resennas': resennas
     }
 
     return render(request, 'perfil.html', contexto)
