@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import loader
@@ -5,6 +6,8 @@ from django.template import loader
 from core.forms import SignInForm, LogInForm
 from usuario.models import Usuario
 from django.core.exceptions import ObjectDoesNotExist
+
+from producto.models import Resenna
 
 
 # Create your views here.
@@ -69,6 +72,7 @@ def login(request):
 def perfil(request, slug=None):
     usuario = None
     titulo = None
+    cantidad_resennas = 0
 
     if slug:
         usuario = Usuario.objects.get(_slug=slug)
@@ -77,9 +81,12 @@ def perfil(request, slug=None):
         usuario = Usuario.objects.get(pk=request.session['usuario_actual']['id'])
         titulo = 'Mi perfil'
 
+    cantidad_resennas = Resenna.objects.filter(_usuario=usuario).aggregate(cantidad=Count('id'))['cantidad']
+
     contexto = {
         'usuario': usuario,
-        'titulo': titulo
+        'titulo': titulo,
+        'cantidad_resennas': cantidad_resennas
     }
 
     return render(request, 'perfil.html', contexto)
