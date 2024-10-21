@@ -71,6 +71,7 @@ class Producto(models.Model):
 class Resenna(models.Model):
     _producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='resennas')
     _usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    _titulo = models.TextField(max_length=32, null=False)
     _comentario = models.TextField(max_length=256, null=False)
     _puntuacion = models.IntegerField(default=3)
     _creacion = models.DateField(default=timezone.now().date())
@@ -90,6 +91,14 @@ class Resenna(models.Model):
     @usuario.setter
     def usuario(self, value):
         self._usuario = value
+
+    @property
+    def titulo(self):
+        return self._titulo
+
+    @titulo.setter
+    def titulo(self, value):
+        self._titulo = value
 
     @property
     def comentario(self):

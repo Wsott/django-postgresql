@@ -32,7 +32,7 @@
           `
           <div class="w3-bar">
               <div class="w3-bar-item">
-                <span class="w3-large">Podría ser peor, pero no mucho</span><br>
+                <span class="w3-large">${actual._titulo}</span><br>
                 <span id='${actual._puntuacion}' class='x'>
                 </span>
               </div>
@@ -57,6 +57,7 @@
       })
     }
 
+  aplicarFiltro('-_creacion');
   });
 </script>
 
@@ -90,11 +91,13 @@
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
+          <div class="w3-display-topright w3-margin w3-white w3-padding-small w3-tiny">Promedio: {{ promedio }}⭐</div>
           <img src="https://picsum.photos/128/128/?grayscale" style="width:100%" alt="Avatar">
-          <div class="w3-container w3-text-black">
+
+        </div>
+        <div class="w3-container w3-text-black">
             <h4>{{producto.nombre}}</h4>
           </div>
-        </div>
         <div class="w3-container">
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
@@ -109,8 +112,9 @@
           </p>
           <p>
             <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            Cantidad de reseñas: {{ resennas.count }}
+            Cantidad de reseñas: {{ cantidad_resennas }}
           </p>
+
 
         </div>
       </div><br>
