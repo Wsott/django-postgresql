@@ -1,3 +1,5 @@
+from types import NoneType
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Count
 from django.http import HttpResponse, JsonResponse
@@ -19,7 +21,7 @@ def info(request, slug):
                 'producto': producto,
                 'resennas': resennas,
                 'cantidad_resennas': datos_calculados['cantidad'],
-                'promedio': round(datos_calculados['promedio'], 1)
+                'promedio': 0 if datos_calculados['promedio'] is not NoneType else round(datos_calculados['promedio'], 1)
             }
             return render(request, 'producto.html', contexto)
 
