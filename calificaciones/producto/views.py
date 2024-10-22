@@ -1,3 +1,4 @@
+import math
 from types import NoneType
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -27,6 +28,40 @@ def info(request, slug):
 
         except ObjectDoesNotExist:
             return HttpResponse('Error')
+
+
+def explorar(request):
+    cantidad_indices = int(math.ceil(len(Producto.objects.all())/8))
+    return render(request, 'explorar.html', {
+        'cantidad_indices': cantidad_indices
+    })
+
+
+@csrf_exempt
+def api_lista_productos(request, indice, filtro):
+    # Si hay 20 elementos
+    #
+    # [00, 01, 02, 03, 04, 05, 06, 07] => i:1 => [0: 8 ]
+    # [08, 09, 10, 11, 12, 13, 14, 15] => i:2 => [9: 16]
+    # [16, 17, 18, 19, 20]             => i:3 => [17:  ]
+    #
+    # Max_i = int(math.ceil(len(Producto.objects.all()) / 8))
+    # Primer caso => [: 8]              => i == 1
+    # Base seria  => [(8*i)-8 : i*8]    => i != 1 and i != Max_i
+    # Ultimo caso => [: 8 * i - 7]      => i == Max_i
+
+    elementos = Producto.objects.all().values('id', '_nombre', '_categoria', '_slug')
+    max_i = int(math.ceil(len(elementos) / 8))
+
+    if indice == 1:
+        resultados = elementos[:8]
+    elif indice == max_i:
+        resultados = elementos[(8 * max_i) - 7:]
+    else:
+        resultados = elementos[(8 * indice) - 8: indice * 8]
+
+    return JsonResponse(resultados, safe=False)
+
 
 
 @csrf_exempt
