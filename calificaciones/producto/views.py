@@ -50,7 +50,13 @@ def api_lista_productos(request, indice, filtro):
     # Base seria  => [(8*i)-8 : i*8]    => i != 1 and i != Max_i
     # Ultimo caso => [: 8 * i - 7]      => i == Max_i
 
-    elementos = Producto.objects.all().values('id', '_nombre', '_categoria', '_slug')
+    if filtro != 'ZZ':
+        elementos = Producto.objects.filter(_categoria=filtro).values('id', '_nombre', '_categoria', '_slug')
+        cantidad_indices = int(math.ceil(len(elementos) / 8))
+    else:
+        elementos = Producto.objects.all().values('id', '_nombre', '_categoria', '_slug')
+        cantidad_indices = int(math.ceil(len(elementos) / 8))
+
     max_i = int(math.ceil(len(elementos) / 8))
 
     if indice == 1:
@@ -60,8 +66,12 @@ def api_lista_productos(request, indice, filtro):
     else:
         resultados = elementos[(8 * indice) - 8: indice * 8]
 
-    return JsonResponse(resultados, safe=False)
+    respuesta = {
+        'cantidad_indices': cantidad_indices,
+        'respuesta': resultados
+    }
 
+    return JsonResponse(respuesta, safe=False)
 
 
 @csrf_exempt
