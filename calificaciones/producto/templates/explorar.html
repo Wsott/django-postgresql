@@ -10,7 +10,7 @@
     const cantidad_indices = "{{cantidad_indices}}";
     let indice_actual = 1;
     const indices = document.getElementById('indices');
-    const resenasContainer = document.getElementById('lista_resennas');
+    const containerPrincipal = document.getElementById('containerPrincipal');
     const selectOrden = document.getElementById('orden-filtro');
 
     function generarIndices(siguiente, inicio){
@@ -24,6 +24,7 @@
           indice_actual--;
         }
       }
+      actualizarLista()
       console.log(indice_actual)
       indices.innerHTML = '';
       
@@ -73,8 +74,8 @@
       aplicarFiltro(orden);
     });
 
-    function aplicarFiltro(orden) {
-      const url = `http://127.0.0.1:8000/producto/api/${productoId}/5/${orden}`;
+    function actualizarLista() {
+      const url = `http://127.0.0.1:8000/producto/api/${indice_actual}/asd`; //${<str:filtro>}
 
       fetch(url)
       .then(response => {
@@ -84,39 +85,34 @@
         return response.json();
       })
       .then(data => {
-        resenasContainer.innerHTML = '';
+        containerPrincipal.innerHTML = '';
+        let x = 0;
         data.forEach(actual => {
-          const elemento = document.createElement('li');
+          const elemento = document.createElement('div');
+          elemento.classList.add('w3-quarter', 'w3-container', 'w3-margin-bottom');
           elemento.innerHTML =
           `
-          <div class="w3-bar">
-              <div class="w3-bar-item">
-                <span class="w3-large">${actual._titulo}</span><br>
-                <span id='${actual._puntuacion}' class='x'>
-                </span>
-              </div>
-              <p class="w3-bar-item">
-                ${actual._comentario}
-              </p>
-              <span class="w3-bar-item w3-right">
-                Reseña hecha por: <a href="/usuario/perfil/${actual._usuario___slug}">${actual._usuario___nombre}</a>
-              </span>
+          <a href='info/${actual._slug}' style='text-decoration: none;'>
+          <img src="https://picsum.photos/256/256/?grayscale" alt="Norway" style="width:100%" class="w3-hover-opacity">
+            <div class="w3-container w3-white">
+              <p><b>${actual._nombre}</b></p>
             </div>
+            </a>
           `;
-          resenasContainer.appendChild(elemento);
+          containerPrincipal.appendChild(elemento);
         })
       })
-      .then(() => {
+      /*.then(() => {
         const spans = document.querySelectorAll('.x');
 
         spans.forEach(actual => {
           const cantidad = parseInt(actual.id, 10);
           actual.innerHTML = '⭐'.repeat(cantidad);
         })
-      })
+      })*/
     }
 
-  aplicarFiltro('-_creacion');
+  //aplicarFiltro('-_creacion');
   });
 </script>
 
@@ -158,6 +154,10 @@
     </div>
     </div>
   </header>
+
+  <div id='containerPrincipal'>
+
+  </div>
 
   <!-- First Grid-->
   <div class="w3-row-padding">
