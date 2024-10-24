@@ -107,6 +107,9 @@
     botones.forEach(actual => {
       actual.addEventListener('click', function() {
         filtrar(this.id);
+        elemento = document.querySelector('button.w3-black');
+        elemento.classList.remove('w3-black');
+        this.classList.add('w3-black');
       })
     })
 
@@ -143,7 +146,7 @@
     <h2><b>Productos reseñados</b></h2>
     <div class="w3-section w3-bottombar w3-padding-16">
       <span class="w3-margin-right">Categorias:</span>
-      <button id='ZZ' class="filtro w3-button w3-black">Todo</button>
+      <button id='ZZ' class="filtro w3-button w3-white w3-black">Todo</button>
       <button id='EL' class="filtro w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Electronica</button>
       <button id='CO' class="filtro w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Comida</button>
       <button id='RO' class="filtro w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Ropa</button>
