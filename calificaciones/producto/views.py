@@ -4,7 +4,7 @@ from types import NoneType
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Count
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Producto, Resenna
@@ -25,7 +25,7 @@ def info(request, slug):
                 'producto': producto,
                 'resennas': resennas,
                 'cantidad_resennas': datos_calculados['cantidad'],
-                'promedio': 0 if datos_calculados['promedio'] is not NoneType else round(datos_calculados['promedio'], 1)
+                'promedio': 0 if datos_calculados['promedio'] is None else round(datos_calculados['promedio'], 1)
             }
             return render(request, 'producto.html', contexto)
 
@@ -92,7 +92,7 @@ def crear_resena(request, slug):
             nueva_resena.comentario = datos.cleaned_data['comentario']
             nueva_resena.puntuacion = datos.cleaned_data['puntuacion']
             nueva_resena.save()
-            return HttpResponse('Exito')
+            return redirect(f'/producto/info/{producto.slug}')
         else:
             mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
 
