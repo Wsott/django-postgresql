@@ -114,7 +114,7 @@ class Resenna(models.Model):
 
     @puntuacion.setter
     def puntuacion(self, value):
-        if 1 <= value <= 5:
+        if 1 <= int(value) <= 5:
             self._puntuacion = value
         else:
             raise ValueError(f'{value} no es un valor valido')

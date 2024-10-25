@@ -7,7 +7,10 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Producto
+from .models import Producto, Resenna
+from core.forms import NuevaResenaForm
+
+from usuario.models import Usuario
 
 
 # Create your views here.
@@ -73,6 +76,32 @@ def api_lista_productos(request, indice, filtro):
 
     return JsonResponse(respuesta, safe=False)
 
+
+def crear_resena(request, slug):
+    mensaje_error = None
+    producto = Producto.objects.get(_slug=slug)
+
+    if request.method == 'POST':
+        datos = NuevaResenaForm(request.POST)
+
+        if datos.is_valid():
+            nueva_resena = Resenna()
+            nueva_resena.producto = producto
+            nueva_resena.usuario = Usuario.objects.get(pk=request.session['usuario_actual']['id'])
+            nueva_resena.titulo = datos.cleaned_data['titulo']
+            nueva_resena.comentario = datos.cleaned_data['comentario']
+            nueva_resena.puntuacion = datos.cleaned_data['puntuacion']
+            nueva_resena.save()
+            return HttpResponse('Exito')
+        else:
+            mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
+
+    return render(request, 'crear_resena.html', {
+        'titulo': 'Nueva reseña para ' + producto.nombre,
+        'form': NuevaResenaForm(),
+        'slug': slug,
+        'error': mensaje_error
+    })
 
 @csrf_exempt
 def api_listar_resennas(request, producto_id=None, max=5, orden=None):
