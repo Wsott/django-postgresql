@@ -3,12 +3,21 @@
 {% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
-<form action="/usuario/login" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-display-middle" style="width:25%; display: flex; flex-direction: column; gap: 2vh">
-    {% csrf_token %}
-    {{ form }}
-    {% if error %}
-    <span class="w3-text-red"><b>{{ error }}</b></span>
-    {% endif %}
-    <input type="submit" value="Iniciar sesion" class="w3-button w3-indigo w3-round ">
-</form>
+    <div class='w3-display-container' style='height: calc(100vh - 118px)'>
+        <form action="/usuario/login" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-cell w3-display-middle">
+            {% csrf_token %}
+            <div class="w3-margin-top">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+            </div>
+            <div class="w3-section">
+                {{ form.contrasenna.label_tag }}
+                {{ form.contrasenna }}
+            </div>
+            {% if error %}
+                <span class="w3-text-red"><b>{{ error }}</b></span>
+            {% endif %}
+            <input type="submit" value="Iniciar sesion" class="w3-button w3-indigo w3-round w3-margin-bottom" style='width:100%'>
+        </form>
+    </div>
 {% endblock %}

@@ -3,8 +3,6 @@
 {% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
-
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     let cantidad_indices = "{{cantidad_indices}}";
@@ -15,7 +13,6 @@
 
     function filtrar(valor) {
       filtroActual = valor;
-      //alert(filtroActual);
       generarIndices(true, true)
     }
 
@@ -31,7 +28,6 @@
         }
       }
       await actualizarLista(filtroActual)
-      //alert(cantidad_indices);
       console.log(indice_actual)
       indices.innerHTML = '';
       
@@ -68,10 +64,8 @@
       indices.appendChild(lateralDerecho);
     }
 
-    //generarIndices(true, true);
-
     async function actualizarLista(filtro) {
-      const url = `http://127.0.0.1:8000/producto/api/${indice_actual}/${filtro}`; //${<str:filtro>}
+      const url = `http://127.0.0.1:8000/producto/api/${indice_actual}/${filtro}`;
 
       await fetch(url)
       .then(response => {
@@ -81,7 +75,6 @@
         return response.json();
       })
       .then(data => {
-        //alert(data.cantidad_indices);
         console.log(data);
         cantidad_indices = data.cantidad_indices
         containerPrincipal.innerHTML = '';
@@ -113,36 +106,12 @@
       })
     })
 
-  //aplicarFiltro('-_creacion');
   filtrar('ZZ');
-
   });
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="w3-section">
-  {{cantidad_indices}}
-
-  {% comment %} {{productos}} {% endcomment %}
-
-  <!-- Header -->
-  <header id="portfolio">
-    <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
-    <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
-    <div class="w3-container">
+  <div class="w3-container">
     <h2><b>Productos reseñados</b></h2>
     <div class="w3-section w3-bottombar w3-padding-16">
       <span class="w3-margin-right">Categorias:</span>
@@ -155,80 +124,16 @@
       <button id='HO' class="filtro w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Hogar</button>
       <button id='XX' class="filtro w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Otros</button>
     </div>
-    </div>
-  </header>
+  </div>
 
   <div id='containerPrincipal'>
-
   </div>
 
-  <!-- First Grid-->
   <div class="w3-row-padding">
-    {% for i in '01'|make_list %}
-      {% comment %} {{ forloop.counter }} {% endcomment %}
-      {% comment %} {% if forloop.counter == 2 %}
-        <b>HOLA</b>
-      {% endif %} {% endcomment %}
-
-      {% comment %} {% for i in '0123'|make_list %}
-        <div class="w3-quarter w3-container w3-margin-bottom">
-          <img src="https://picsum.photos/256/256/?grayscale" alt="Norway" style="width:100%" class="w3-hover-opacity">
-          <div class="w3-container w3-white">
-            <p><b></b></p>
-            <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-          </div>
-        </div>
-      {% endfor %} {% endcomment %}
-
-
-    {% endfor %}
-
-    {% comment %} 
-    
-    <div class="w3-third w3-container w3-margin-bottom">
-      <img src="/w3images/lights.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-      <div class="w3-container w3-white">
-        <p><b>Lorem Ipsum</b></p>
-        <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      </div>
-    </div>
-    
-    {% endcomment %}
-    
   </div>
 
-  {% comment %} <!-- Second Grid-->
-  <div class="w3-row-padding">
-    <div class="w3-third w3-container w3-margin-bottom">
-      <img src="/w3images/p1.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-      <div class="w3-container w3-white">
-        <p><b>Lorem Ipsum</b></p>
-        <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      </div>
-    </div>
-    <div class="w3-third w3-container w3-margin-bottom">
-      <img src="/w3images/p2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-      <div class="w3-container w3-white">
-        <p><b>Lorem Ipsum</b></p>
-        <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      </div>
-    </div>
-    <div class="w3-third w3-container">
-      <img src="/w3images/p3.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-      <div class="w3-container w3-white">
-        <p><b>Lorem Ipsum</b></p>
-        <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      </div>
-    </div>
-  </div> {% endcomment %}
-
-  <!-- Pagination -->
   <div class="w3-center w3-padding-32">
     <div id='indices' class="w3-bar">
-      {% comment %} <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
-      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a> {% endcomment %}
     </div>
   </div>
 </div>

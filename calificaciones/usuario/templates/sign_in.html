@@ -3,16 +3,33 @@
 {% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
-<form action="/usuario/signin" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-display-middle" style="width:25%; display: flex; flex-direction: column; gap: 2vh">
-    {% csrf_token %}
-    {{ form }}
-    <div>
-        <input id="tos" type="checkbox" required>
-        <label for="tos">Acepto los <a id="tos-event" target="_blank" href="https://www.lipsum.com/">Terminos y  Condiciones</a></label>
+    <div class='w3-display-container' style='height: calc(100vh - 118px)'>
+        <form action="/usuario/signin" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-cell w3-display-middle">
+            {% csrf_token %}
+            <div class="w3-margin-top">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+            </div>
+            <div class="w3-margin-top">
+                {{ form.contrasenna.label_tag }}
+                {{ form.contrasenna }}
+            </div>
+            <div class="w3-margin-top">
+                {{ form.repetir_contrasenna.label_tag }}
+                {{ form.repetir_contrasenna }}
+            </div>
+            <div class="w3-margin-top">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="w3-margin-top">
+                <input id="tos" type="checkbox" required>
+                <label for="tos">Acepto los <a id="tos-event" target="_blank" href="https://www.lipsum.com/">Terminos y  Condiciones</a></label>
+            </div>
+            {% if error %}
+                <span class="w3-text-red"><b>{{ error }}</b></span>
+            {% endif %}
+            <input type="submit" value="Registrarse" class="w3-button w3-indigo w3-round w3-section" style='width:100%'>
+        </form>
     </div>
-    {% if error %}
-    <span class="w3-text-red"><b>{{ error }}</b></span>
-    {% endif %}
-    <input type="submit" value="Registrarse" class="w3-button w3-indigo w3-round ">
-</form>
 {% endblock %}

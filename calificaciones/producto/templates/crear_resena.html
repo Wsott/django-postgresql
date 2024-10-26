@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titulo %} {{ titulo }} {% endblock %}
+
+{% block contenido %}
+<div class='w3-display-container' style='height: calc(100vh - 118px)'>
+    <form action="/producto/crear/resena/{{ slug }}" method="post" class="w3-container w3-light-blue w3-round w3-padding w3-cell w3-display-middle">
+        {% csrf_token %}
+        <div class="w3-margin-top">
+            {{ form.titulo.label_tag }}
+            {{ form.titulo }}
+        </div>
+        <div class="w3-margin-top">
+            {{ form.comentario.label_tag }}
+            {{ form.comentario }}
+        </div>
+        <div class="w3-margin-top">
+            {{ form.puntuacion.label_tag }}
+            {{ form.puntuacion }}
+        </div>
+        {% if error %}
+            <span class="w3-text-red"><b>{{ error }}</b></span>
+        {% endif %}
+        <input type="submit" value="Registrar mi reseña" class="w3-button w3-indigo w3-round w3-section" style='width:100%'>
+    </form>
+</div>
+{% endblock %}

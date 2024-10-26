@@ -3,123 +3,78 @@
 {% block titulo %} {{ titulo }} {% endblock %}
 
 {% block contenido %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-{% if not request.session.usuario_actual %}
-<div class="w3-red">
-  adasdas
-</div>
-{% endif %}
-<div class="w3-blue">
-  {{ request.session.usuario_actual }}
-</div>
-
-
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
-
-  <!-- The Grid -->
-  <div class="w3-row-padding">
-
-    <!-- Left Column -->
-    <div class="w3-col" style="max-width:20vw">
-
-      <div class="w3-white w3-text-grey w3-card-4">
-        <div class="w3-display-container">
-          <img src="https://picsum.photos/128/128/?grayscale" style="width:100%" alt="Avatar">
-          <div class="w3-container w3-text-black">
-            <h2>{{usuario.nombre}}</h2>
-          </div>
-        </div>
-        <div class="w3-container">
-          {% if request.session.usuario_actual and request.session.usuario_actual.id == usuario.id %}
-          <p>
-            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            {{usuario.email}}
-          </p>
-          {% endif %}
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.fecha_creacion}}</p>
-          <p>
-            <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
-            Ultimo login:
-            {% if usuario.ultimo_login %}
-              {{usuario.ultimo_login}}
-            {% else %}
-              Nunca
-            {% endif %}
-          </p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Cantidad de reseñas: {{ cantidad_resennas }}</p>
-
-        </div>
-      </div><br>
-    <button class="w3-button w3-teal w3-round" style="width:100%">Ver todas las reseñas</button>
-    <!-- End Left Column -->
-    </div>
-
-    <!-- Right Column -->
-    <div class="w3-rest">
-
-      <div class="w3-container w3-card w3-white w3-margin-bottom" style="min-height: 55vh">
-        <h2 class="w3-text-grey w3-padding-16">
-          <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Ultimas reseñas
-        </h2>
-
-
-        {% if resennas %}
-        <ul class="w3-ul">
-
-
-          {% for actual in resennas %}
-          <li>
-            <div class="w3-bar">
-              <div class="w3-bar-item">
-                <span class="w3-large">{{ actual.titulo }}</span><br>
-                <span>
-                  {% for x in actual.obtener_rango %}
-                  ⭐
-                  {% endfor %}
-                </span>
-              </div>
-              <p class="w3-bar-item">
-                {{ actual.comentario }}
-              </p>
-              <span class="w3-bar-item w3-right">
-                Reseña hecha para: <a href="/producto/info/{{ actual.producto.slug }}">{{ actual.producto.nombre }}</a>
-              </span>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <div class="w3-content w3-margin-top" style="max-width:1400px;">
+    <div class="w3-row-padding">
+      <div class="w3-col" style="max-width:20vw">
+        <div class="w3-white w3-text-grey w3-card-4">
+          <div class="w3-display-container">
+            <img src="https://picsum.photos/128/128/?grayscale" style="width:100%" alt="Avatar">
+            <div class="w3-container w3-text-black">
+              <h2>{{usuario.nombre}}</h2>
             </div>
-          </li>
-
-          {% endfor %}
-
-          </ul>
-          {% else %}
-
-          <div class="w3-container w3-display-container w3-section" style="height: 35vh">
-
-            <span class="w3-display-middle w3-xxlarge">No hay nada... por ahora</span>
           </div>
-
-          {% endif %}
-
-
-
-
-
-
-
-
-
-
+          <div class="w3-container">
+            {% if request.session.usuario_actual and request.session.usuario_actual.id == usuario.id %}
+            <p>
+              <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
+              {{usuario.email}}
+            </p>
+            {% endif %}
+            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-large w3-text-teal"></i>Registro: {{usuario.fecha_creacion}}</p>
+            <p>
+              <i class="fa fa-sign-in fa-fw w3-margin-right w3-large w3-text-teal"></i>
+              Ultimo login:
+              {% if usuario.ultimo_login %}
+                {{usuario.ultimo_login}}
+              {% else %}
+                Nunca
+              {% endif %}
+            </p>
+            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-large w3-text-teal"></i>Cantidad de reseñas: {{ cantidad_resennas }}</p>
+          </div>
+        </div><br>
+      <button class="w3-button w3-teal w3-round" style="width:100%">Ver todas las reseñas</button>
       </div>
 
-
-
-    <!-- End Right Column -->
+      <div class="w3-rest">
+        <div class="w3-container w3-card w3-white w3-margin-bottom" style="min-height: 55vh">
+          <h2 class="w3-text-grey w3-padding-16">
+            <i class="fa fa-pencil fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Ultimas reseñas
+          </h2>
+          {% if resennas %}
+          <ul class="w3-ul">
+            {% for actual in resennas %}
+            <li class='w3-hover-light-gray'>
+              <div class="w3-container">
+                <div class="w3-bar-item">
+                  <span class="w3-large">{{ actual.titulo }}</span><br>
+                  <span>
+                    {% for x in actual.obtener_rango %}
+                    ⭐
+                    {% endfor %}
+                  </span>
+                </div>
+                <p class="w3-bar-item">
+                  {{ actual.comentario }}
+                </p>
+                <span class="w3-bar-item w3-right">
+                  Reseña hecha para: <a href="/producto/info/{{ actual.producto.slug }}">{{ actual.producto.nombre }}</a>
+                </span>
+              </div>
+            </li>
+            {% endfor %}
+            </ul>
+            <br>
+            {% else %}
+            <div class="w3-container w3-display-container w3-section" style="height: 35vh">
+              <span class="w3-display-middle w3-xxlarge">No hay nada... por ahora</span>
+            </div>
+            {% endif %}
+        </div>
+      </div>
     </div>
-
-  <!-- End Grid -->
   </div>
-
-  <!-- End Page Container -->
-</div>
+  <br>
 {% endblock %}

@@ -8,7 +8,9 @@ class NuevaResenaForm(forms.Form):
                              }))
     comentario = forms.CharField(label='¿Que opina del producto?', max_length=256,
                                  widget=forms.Textarea(attrs={
-                                     'class': 'w3-input'
+                                     'class': 'w3-input',
+                                     'rows': 5,
+                                     'style': 'resize: none'
                                  }))
     puntuacion = forms.ChoiceField(label='Le doy...',
                                    choices=[
