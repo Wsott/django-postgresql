@@ -29,7 +29,15 @@ def registrarse(request):
                 nuevo_usuario.email = datos.cleaned_data['email']
                 nuevo_usuario.save()
                 nuevo_usuario.generar_slug()
-                return HttpResponse('Exito')
+
+                nuevo_usuario.iniciar_sesion(datos.cleaned_data['contrasenna'])
+
+                request.session['usuario_actual'] = {
+                    'nombre': nuevo_usuario.nombre,
+                    'id': nuevo_usuario.id
+                }
+
+                return redirect('perfil')
         else:
             mensaje_error = 'El nombre de usuario o contraseña no puede contener espacios'
 
